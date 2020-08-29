@@ -1,2 +1,2 @@
 # Curso-Estad-stica-espacial
-Código curso Universidad Nacional
+## Código curso Universidad Nacional
