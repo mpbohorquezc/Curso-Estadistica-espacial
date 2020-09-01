@@ -1,0 +1,326 @@
+---
+title: "Geo estadística univariada - GeoR"
+output:
+  github_document:
+    pandoc_args: --webtex
+
+---
+# Parte descriptiva
+
+## Cargar librerias
+
+Lista de librerías con link a la documentación.
+
+```{r include = FALSE}
+library(geoR)
+library(akima)
+library(fields)
+require(graphics)
+# rmarkdown::render("Ejemplo_aquifer_geoR.Rmd")
+```
+- [fields](https://cran.r-project.org/web/packages/fields/fields.pdf)
+- [geoR](https://cran.r-project.org/web/packages/geoR/geoR.pdf)
+- [akima](https://cran.r-project.org/web/packages/akima/akima.pdf)
+  Usado para gráficos descriptivos
+
+
+## Lectura de datos 
+
+```{r echo = T, results = "hide"}
+aquifer <- read.table("aquifer.txt", head = TRUE, dec = ",")
+head(aquifer)
+summary(aquifer)
+```
+
+Encabezado datos aquifer
+```{r echo = FALSE}
+knitr::kable(head(aquifer), label = "Encabezado aquifer")
+```
+
+Summary datos aquifer
+```{r echo = FALSE}
+knitr::kable(summary(aquifer), label = "Summary")
+```
+## GEO_Data
+### Convertir aquifer a un objeto geodata (geoR obj)
+
+- Documentacion [as.geodata](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=5)
+
+```{r warning = FALSE}
+aquiferg <- as.geodata(aquifer)
+summary(aquiferg)
+```
+### Gráfico de objeto geodata
+- Documentación [plotgeodata](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=85)
+
+Gráfico del objeto geodata
+```{r warning = FALSE}
+plot(aquiferg, qt.col = c("purple",
+                         "pink",
+                         "green",
+                         "yellow"))
+``` 
+
+Gráfico con el parametro 3d
+```{r warning = FALSE}
+plot(aquiferg, scatter3d = T)
+``` 
+
+
+Gráfico removiendo la tendencia (trend )
+```{r warning = FALSE}
+plot(aquiferg, trend = "1st")
+# plot(aquiferg, trend = ~ aquiferg$coords)
+#plot(aquiferg, trend = "2nd")
+
+``` 
+### Gráficos descriptivos interpolación
+
+- Documentacion Interpolación 
+[inderp](https://cran.r-project.org/web/packages/akima/akima.pdf#page=14)
+- Documentacion [persp](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/persp)
+- Documentacion [drape.plot](https://cran.r-project.org/web/packages/fields/fields.pdf#page=36)
+
+```{r warning = FALSE}
+
+par(mfrow = c(2, 2),
+    mar = c(3, 3, 1, 1),
+    mgp = c(2, 1, 0))
+# Esta función agrupa los siguientes gráficos en
+# una matrix 2x2
+
+grillas <- interp(aquifer$Este,
+                  aquifer$Norte,
+                  aquifer$Profundidad)
+
+persp(grillas$x,
+      grillas$y,
+      grillas$z,
+      xlab = "Este",
+      ylab = "Norte",
+      zlab = "Nivel freatico",
+      phi = 30,
+      theta = 20,
+      col = "lightblue",
+      expand = .5,
+      ticktype = "detailed")
+
+drape.plot(grillas$x,
+           grillas$y,
+           grillas$z,
+           xlab = "Este",
+           ylab = "Norte",
+           zlab = "z",
+           theta = 45,
+           col = topo.colors(64),
+           expand = .5,
+           ticktype = "detailed")
+
+
+drape.plot(grillas$x,
+           grillas$y,
+           grillas$z,
+           xlab = "Este",
+           ylab = "Norte",
+           zlab = "z",
+           theta = -10,
+           col = topo.colors(64),
+           expand = .5,
+           ticktype = "detailed")
+
+
+drape.plot(grillas$x,
+           grillas$y,
+           grillas$z,
+           xlab = "Este",
+           ylab = "Norte",
+           zlab = "z",
+           theta = 60,
+           col = topo.colors(64),
+           expand = .5,
+           ticktype = "detailed")
+```
+
+### Gráficos de contorno
+
+- Documentacion [contour](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/contour)
+- Documentacion [filled.contour](https://www.rdocumentation.org/packages/graphics/versions/3.6.2/topics/filled.contour)
+
+
+```{r warning = FALSE}
+
+# contour(grillas, nlevels = 10)
+# image(grillas$z)
+filled.contour(grillas, levels = seq(1000,
+                                     5000,
+                                     len=10),
+               col = heat.colors(10))
+
+```
+
+### Funciones y gráficas a partir de la ufnción outer 
+```{r warning =  FALSE}
+h <- seq(0, 1, len = 50)
+u <- seq(0, 1, len = 50)
+
+ejemplo1CH  <- function(h, u, sigma, a, b, c, d, delta) {
+    (sigma^2/((a^2*u^2+c)^(d/2)))*exp(-(b^2*h^2)/(a^2*u^2+c))*exp(-delta*u^2)
+    }
+h <- seq(0, 1, len = 20)
+u <- seq(1, 10, len = 20)
+f <- outer(h, u, ejemplo1CH, sigma=3, a=1, b=3, c=1, d=2, delta=0)
+
+par(mfrow = c(2, 2),
+    mar = c(3, 3, 1, 1),
+    mgp = c(2, 1, 0))
+
+drape.plot(h,
+           u,
+           f,
+           main = "Cressie-Huang; 1 (25,1,0.6)",
+           xlab = "h",
+           ylab = "u",
+           zlab = "Covarianza",
+           ltheta = 75,
+           col = terrain.colors(64))
+
+drape.plot(h,
+           u,
+           f,
+           main = "Cressie-Huang; 1 (25,1,0.6)",
+           xlab = "h",
+           ylab = "u",
+           zlab = "Covarianza",
+           theta = -150,
+           col = terrain.colors(64))
+persp(h,
+      u,
+      f,
+      main = "Cressie-Huang; 1 (25,1,0.6)",
+      xlab = "h",
+      ylab = "u",
+      zlab = "Covarianza",
+      ltheta = 75)
+
+contour(h,
+        u,
+        f,
+        col = topo.colors(10),
+        xlim = c(0,0.6))
+```
+
+# Estimar diferentes tipos de regresión
+
+## Primer modelo
+```{r echo = T }
+
+reg1 <- lm(Profundidad ~ Este + Norte, data = aquifer)
+residuales1  <-  residuals(reg1)
+summary(reg1)
+anova(reg1)
+
+```
+## Segundo modelo
+```{r echo = T }
+
+reg2 <- lm(Profundidad ~ Este + Norte +
+           I(Este^2) + I(Norte^2) +
+           I(Este * Norte),
+           data = aquifer)
+residuales2  <-  residuals(reg2)
+summary(reg2)
+anova(reg2)
+
+```
+## Tercer modelo
+```{r echo = T }
+
+reg3 <- lm(Profundidad ~ Este * Norte,
+           data = aquifer)
+residuales3  <-  residuals(reg3)
+summary(reg3)
+anova(reg3)
+
+```
+# Estimación del semivariográma empirico
+
+- Documentacion [variog](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=133)
+
+
+```{r echo = T }
+
+vari2 <- variog(aquiferg, trend = "1st")
+vari2Cloud <- variog(aquiferg, op = "cloud", trend = "1st")
+vari2BinCloud <- variog(aquiferg,
+                       max.dist = 200,
+                       op = "cloud",
+                       bin.cloud = TRUE)
+vari2Sm <- variog(aquiferg,
+                  trend = "1st",
+                  op = "sm",
+                  band=11)
+
+par(mfrow = c(2, 2), mar = c(3, 3, 1, 1), mgp = c(2, 1, 0))
+     plot(vari2, main = "binned variogram")
+     plot(vari2Cloud, main = "variogram cloud")
+     plot(vari2BinCloud,main = "clouds for binned variogram")
+     plot(vari2Sm, main = "smoothed variogram")
+
+```
+### Explorando estimación clásica, removiendo tendencia
+
+```{r echo = T }
+
+vari1 <- variog(aquiferg)
+plot(vari1)
+vari2 <- variog(aquiferg, trend = "1st")
+plot(vari2)
+vari3 <- variog(aquiferg, trend = "2nd")
+plot(vari3)
+
+```
+
+### Explorando estimación "Modulus", removiendo tendencia
+
+```{r echo = T }
+
+vari1 <- variog(aquiferg, estimator.type = "modulus")
+plot(vari1)
+vari2 <- variog(aquiferg, trend = "1st", estimator.type = "modulus")
+plot(vari2)
+vari3 <- variog(aquiferg, trend = "2nd", estimator.type = "modulus")
+plot(vari3)
+
+```
+
+
+### Explorando posible anisotropia
+
+```{r echo = T}
+vari_0 <- variog(aquiferg,
+                 trend = "1st",
+                 max.dist = 200,
+                 dir = 0)
+
+vari_45 <- variog(aquiferg,
+                  trend = "1st",
+                  max.dist = 200,
+                  dir = pi / 4)
+vari_90 <- variog(aquiferg,
+                  trend = "1st",
+                  max.dist = 200,
+                  dir = pi / 2)
+vari_135 <- variog(aquiferg,
+                   trend = "1st",
+                   max.dist = 200,
+                   dir = 3 * pi / 4)
+par(mfrow = c(2, 2),
+    mar = c(3, 3, 1, 1),
+    mgp = c(2, 1, 0))
+
+plot(vari_0, main = "vari 0")
+plot(vari_45, main = "vari 45")
+plot(vari_90, main = "vari 90")
+plot(vari_135, main = "vari 195")
+
+```
