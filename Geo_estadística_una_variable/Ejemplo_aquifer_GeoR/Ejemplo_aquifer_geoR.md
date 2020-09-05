@@ -190,15 +190,24 @@ drape.plot(grillas$x,
 <!-- end list -->
 
 ``` r
-# contour(grillas, nlevels = 10)
-# image(grillas$z)
-filled.contour(grillas, levels = seq(1000,
-                                     5000,
-                                     len=10),
-               col = heat.colors(10))
+par(mfrow = c(2, 1),
+    mar = c(1,1,1,1))
+
+contour(grillas, nlevels = 10, main = "Contorno")
+image(grillas$z, main =  "Grilla")
 ```
 
 ![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-10-1.png)<!-- -->
+
+``` r
+filled.contour(grillas, levels = seq(1000,
+                                     5000,
+                                     len = 10),
+               col = heat.colors(10),
+                main = "grilla niveles")
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
 
 ### Funciones y gráficas a partir de la ufnción outer
 
@@ -252,7 +261,7 @@ contour(h,
         xlim = c(0,0.6))
 ```
 
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-11-1.png)<!-- -->
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-12-1.png)<!-- -->
 
 # Estimar diferentes tipos de regresión
 
@@ -262,6 +271,7 @@ contour(h,
 reg1 <- lm(Profundidad ~ Este + Norte, data = aquifer)
 residuales1  <-  residuals(reg1)
 summary(reg1)
+anova(reg1)
 ```
 
     ## 
@@ -284,10 +294,6 @@ summary(reg1)
     ## Multiple R-squared:  0.8921, Adjusted R-squared:  0.8894 
     ## F-statistic: 338.9 on 2 and 82 DF,  p-value: < 2.2e-16
 
-``` r
-anova(reg1)
-```
-
     ## Analysis of Variance Table
     ## 
     ## Response: Profundidad
@@ -307,6 +313,7 @@ reg2 <- lm(Profundidad ~ Este + Norte +
            data = aquifer)
 residuales2  <-  residuals(reg2)
 summary(reg2)
+anova(reg2)
 ```
 
     ## 
@@ -333,10 +340,6 @@ summary(reg2)
     ## Multiple R-squared:  0.9131, Adjusted R-squared:  0.9076 
     ## F-statistic:   166 on 5 and 79 DF,  p-value: < 2.2e-16
 
-``` r
-anova(reg2)
-```
-
     ## Analysis of Variance Table
     ## 
     ## Response: Profundidad
@@ -357,6 +360,7 @@ reg3 <- lm(Profundidad ~ Este * Norte,
            data = aquifer)
 residuales3  <-  residuals(reg3)
 summary(reg3)
+anova(reg3)
 ```
 
     ## 
@@ -380,10 +384,6 @@ summary(reg3)
     ## Multiple R-squared:  0.905,  Adjusted R-squared:  0.9014 
     ## F-statistic: 257.1 on 3 and 81 DF,  p-value: < 2.2e-16
 
-``` r
-anova(reg3)
-```
-
     ## Analysis of Variance Table
     ## 
     ## Response: Profundidad
@@ -404,33 +404,16 @@ anova(reg3)
 
 ``` r
 vari2 <- variog(aquiferg, trend = "1st")
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
 vari2Cloud <- variog(aquiferg, op = "cloud", trend = "1st")
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
 vari2BinCloud <- variog(aquiferg,
                        max.dist = 200,
                        op = "cloud",
                        bin.cloud = TRUE)
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
 vari2Sm <- variog(aquiferg,
                   trend = "1st",
                   op = "sm",
                   band=11)
 ```
-
-    ## variog: computing omnidirectional variogram
 
 ``` r
 par(mfrow = c(2, 2), mar = c(3, 3, 1, 1), mgp = c(2, 1, 0))
@@ -440,83 +423,59 @@ par(mfrow = c(2, 2), mar = c(3, 3, 1, 1), mgp = c(2, 1, 0))
      plot(vari2Sm, main = "smoothed variogram")
 ```
 
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
-\#\#\# Explorando estimación clásica, removiendo
-tendencia
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-20-1.png)<!-- -->
+
+### Explorando estimación clásica, removiendo tendencia
 
 ``` r
 vari1 <- variog(aquiferg)
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
-plot(vari1)
-```
-
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
-
-``` r
 vari2 <- variog(aquiferg, trend = "1st")
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
-plot(vari2)
-```
-
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-16-2.png)<!-- -->
-
-``` r
 vari3 <- variog(aquiferg, trend = "2nd")
 ```
 
-    ## variog: computing omnidirectional variogram
-
 ``` r
-plot(vari3)
+plot(vari1, main = "Sin remover tendencia")
 ```
 
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-16-3.png)<!-- -->
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-22-1.png)<!-- -->
 
-### Explorando estimación “Modulus”, removiendo tendencia
+``` r
+plot(vari2, main  = "Trend 1 ")
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-22-2.png)<!-- -->
+
+``` r
+plot(vari3, main  = "Trend 2 ")
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-22-3.png)<!-- -->
+
+### Explorando estimación “Modulos”, removiendo tendencia
 
 ``` r
 vari1 <- variog(aquiferg, estimator.type = "modulus")
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
-plot(vari1)
-```
-
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
-
-``` r
 vari2 <- variog(aquiferg, trend = "1st", estimator.type = "modulus")
-```
-
-    ## variog: computing omnidirectional variogram
-
-``` r
-plot(vari2)
-```
-
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-17-2.png)<!-- -->
-
-``` r
 vari3 <- variog(aquiferg, trend = "2nd", estimator.type = "modulus")
 ```
 
-    ## variog: computing omnidirectional variogram
-
 ``` r
-plot(vari3)
+plot(vari1, main = "Sin remover tendencia")
 ```
 
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-17-3.png)<!-- -->
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-24-1.png)<!-- -->
+
+``` r
+plot(vari2, main  = "Trend 1 ")
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-24-2.png)<!-- -->
+
+``` r
+plot(vari3, main  = "Trend 2 ")
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-24-3.png)<!-- -->
 
 ### Explorando posible anisotropia
 
@@ -525,42 +484,19 @@ vari_0 <- variog(aquiferg,
                  trend = "1st",
                  max.dist = 200,
                  dir = 0)
-```
 
-    ## variog: computing variogram for direction = 0 degrees (0 radians)
-    ##         tolerance angle = 22.5 degrees (0.393 radians)
-
-``` r
 vari_45 <- variog(aquiferg,
                   trend = "1st",
                   max.dist = 200,
                   dir = pi / 4)
-```
-
-    ## variog: computing variogram for direction = 45 degrees (0.785 radians)
-    ##         tolerance angle = 22.5 degrees (0.393 radians)
-
-``` r
 vari_90 <- variog(aquiferg,
                   trend = "1st",
                   max.dist = 200,
                   dir = pi / 2)
-```
-
-    ## variog: computing variogram for direction = 90 degrees (1.571 radians)
-    ##         tolerance angle = 22.5 degrees (0.393 radians)
-
-``` r
 vari_135 <- variog(aquiferg,
                    trend = "1st",
                    max.dist = 200,
                    dir = 3 * pi / 4)
-```
-
-    ## variog: computing variogram for direction = 135 degrees (2.356 radians)
-    ##         tolerance angle = 22.5 degrees (0.393 radians)
-
-``` r
 par(mfrow = c(2, 2),
     mar = c(3, 3, 1, 1),
     mgp = c(2, 1, 0))
@@ -571,4 +507,320 @@ plot(vari_90, main = "vari 90")
 plot(vari_135, main = "vari 195")
 ```
 
-![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-25-1.png)<!-- -->
+
+# Estimación teórica del semivariograma.
+
+  - Documentación
+    [eyefit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=25)
+  - Documentación
+    [variofit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=129)
+  - Documentación
+    [likfit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=60)
+
+<!-- end list -->
+
+``` r
+var1 <- variog(aquiferg,trend="1st",max.dist=200)
+
+
+#ini1 <- eyefit(var1)
+#cov.model  sigmasq phi   tausq kappa kappa2   practicalRange
+#1      wave 30805.52  13 8984.94  <NA>   <NA> 38.8889336320589
+ini1 <- c(30805.52, 13)
+fitvar1 <- variofit(var1,
+                    cov.model = "wave",
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "equal")
+
+fitvar2 <- variofit(var1,
+                    cov.model = "wave",
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "npairs")
+
+fitvar3 <- variofit(var1,
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "cressie")
+
+
+fitvar4 <- likfit(aquiferg,
+                  coords = aquiferg$coords,
+                  data = aquiferg$data,
+                  trend = "1st",
+                  ini.cov.pars = ini1,
+                  fix.nugget = T,
+                  nugget = 8984.94,
+                  cov.model = "wave",
+                  lik.method = "ML")
+
+fitvar5 <- likfit(aquiferg,
+                  coords = aquiferg$coords,
+                  data = aquiferg$data,
+                  trend = "1st",
+                  ini.cov.pars = ini1,
+                  fix.nugget = T,
+                  nugget = 8984.94,
+                  cov.model = "wave",
+                  lik.method = "REML")
+```
+
+``` r
+plot(var1,
+     xlab = "h",
+     ylab = "semivarianza",
+     cex.lab = 1.3,
+     cex.axis = 1.2,
+     main = "Estimación teórica del modelo de semivariograma",
+     col.main = 4, cex.main =1.3)
+lines(fitvar1, col = 1)
+lines(fitvar2, col = 2)
+lines(fitvar3, col = 3)
+lines(fitvar4, col = 4)
+lines(fitvar5, col = 5)
+legend(130, 18000,
+       c("MCO", "MCPnpairs", "MCPcressie", "ML", "REML"),
+       lwd = 2,
+       lty = 2:7,
+       col = 2:7,
+       box.col = 9,
+       text.col = 2:7)
+```
+
+![](Ejemplo_aquifer_geoR_files/figure-gfm/unnamed-chunk-27-1.png)<!-- -->
+
+# Resultados.
+
+``` r
+summary(fitvar1)
+```
+
+    ## $pmethod
+    ## [1] "OLS (ordinary least squares)"
+    ## 
+    ## $cov.model
+    ## [1] "wave"
+    ## 
+    ## $spatial.component
+    ##     sigmasq         phi 
+    ## 31203.33666    11.93873 
+    ## 
+    ## $spatial.component.extra
+    ## kappa 
+    ##   0.5 
+    ## 
+    ## $nugget.component
+    ##   tausq 
+    ## 8984.94 
+    ## 
+    ## $fix.nugget
+    ## [1] TRUE
+    ## 
+    ## $fix.kappa
+    ## [1] TRUE
+    ## 
+    ## $practicalRange
+    ## [1] 35.71419
+    ## 
+    ## $sum.of.squares
+    ##     value 
+    ## 159338722 
+    ## 
+    ## $estimated.pars
+    ##     sigmasq         phi 
+    ## 31203.33666    11.93873 
+    ## 
+    ## $weights
+    ## [1] "equal"
+    ## 
+    ## $call
+    ## variofit(vario = var1, ini.cov.pars = ini1, cov.model = "wave", 
+    ##     fix.nugget = TRUE, nugget = 8984.94, weights = "equal")
+    ## 
+    ## attr(,"class")
+    ## [1] "summary.variomodel"
+
+``` r
+summary(fitvar2)
+```
+
+    ## $pmethod
+    ## [1] "WLS (weighted least squares)"
+    ## 
+    ## $cov.model
+    ## [1] "wave"
+    ## 
+    ## $spatial.component
+    ##     sigmasq         phi 
+    ## 31311.81332    12.05997 
+    ## 
+    ## $spatial.component.extra
+    ## kappa 
+    ##   0.5 
+    ## 
+    ## $nugget.component
+    ##   tausq 
+    ## 8984.94 
+    ## 
+    ## $fix.nugget
+    ## [1] TRUE
+    ## 
+    ## $fix.kappa
+    ## [1] TRUE
+    ## 
+    ## $practicalRange
+    ## [1] 36.07688
+    ## 
+    ## $sum.of.squares
+    ##       value 
+    ## 32922890311 
+    ## 
+    ## $estimated.pars
+    ##     sigmasq         phi 
+    ## 31311.81332    12.05997 
+    ## 
+    ## $weights
+    ## [1] "npairs"
+    ## 
+    ## $call
+    ## variofit(vario = var1, ini.cov.pars = ini1, cov.model = "wave", 
+    ##     fix.nugget = TRUE, nugget = 8984.94, weights = "npairs")
+    ## 
+    ## attr(,"class")
+    ## [1] "summary.variomodel"
+
+``` r
+summary(fitvar3)
+```
+
+    ## $pmethod
+    ## [1] "WLS (weighted least squares)"
+    ## 
+    ## $cov.model
+    ## [1] "matern"
+    ## 
+    ## $spatial.component
+    ##     sigmasq         phi 
+    ## 32541.18204    22.69704 
+    ## 
+    ## $spatial.component.extra
+    ## kappa 
+    ##   0.5 
+    ## 
+    ## $nugget.component
+    ##   tausq 
+    ## 8984.94 
+    ## 
+    ## $fix.nugget
+    ## [1] TRUE
+    ## 
+    ## $fix.kappa
+    ## [1] TRUE
+    ## 
+    ## $practicalRange
+    ## [1] 67.99426
+    ## 
+    ## $sum.of.squares
+    ##    value 
+    ## 26.97852 
+    ## 
+    ## $estimated.pars
+    ##     sigmasq         phi 
+    ## 32541.18204    22.69704 
+    ## 
+    ## $weights
+    ## [1] "cressie"
+    ## 
+    ## $call
+    ## variofit(vario = var1, ini.cov.pars = ini1, fix.nugget = TRUE, 
+    ##     nugget = 8984.94, weights = "cressie")
+    ## 
+    ## attr(,"class")
+    ## [1] "summary.variomodel"
+
+``` r
+summary(fitvar4)
+```
+
+    ## Summary of the parameter estimation
+    ## -----------------------------------
+    ## Estimation method: maximum likelihood 
+    ## 
+    ## Parameters of the mean component (trend):
+    ##     beta0     beta1     beta2 
+    ## 2723.1654   -7.1140   -6.9505 
+    ## 
+    ## Parameters of the spatial component:
+    ##    correlation function: wave
+    ##       (estimated) variance parameter sigmasq (partial sill) =  30806
+    ##       (estimated) cor. fct. parameter phi (range parameter)  =  12.11
+    ##    anisotropy parameters:
+    ##       (fixed) anisotropy angle = 0  ( 0 degrees )
+    ##       (fixed) anisotropy ratio = 1
+    ## 
+    ## Parameter of the error component:
+    ##       (fixed) nugget = 8984.94
+    ## 
+    ## Transformation parameter:
+    ##       (fixed) Box-Cox parameter = 1 (no transformation)
+    ## 
+    ## Practical Range with cor=0.05 for asymptotic range: 36.2227
+    ## 
+    ## Maximised Likelihood:
+    ##    log.L n.params      AIC      BIC 
+    ## "-572.8"      "5"   "1156"   "1168" 
+    ## 
+    ## non spatial model:
+    ##    log.L n.params      AIC      BIC 
+    ## "-570.8"      "4"   "1150"   "1159" 
+    ## 
+    ## Call:
+    ## likfit(geodata = aquiferg, coords = aquiferg$coords, data = aquiferg$data, 
+    ##     trend = "1st", ini.cov.pars = ini1, fix.nugget = T, nugget = 8984.94, 
+    ##     cov.model = "wave", lik.method = "ML")
+
+``` r
+summary(fitvar5)
+```
+
+    ## Summary of the parameter estimation
+    ## -----------------------------------
+    ## Estimation method: restricted maximum likelihood 
+    ## 
+    ## Parameters of the mean component (trend):
+    ##     beta0     beta1     beta2 
+    ## 2723.0308   -7.1143   -6.9479 
+    ## 
+    ## Parameters of the spatial component:
+    ##    correlation function: wave
+    ##       (estimated) variance parameter sigmasq (partial sill) =  30806
+    ##       (estimated) cor. fct. parameter phi (range parameter)  =  12.16
+    ##    anisotropy parameters:
+    ##       (fixed) anisotropy angle = 0  ( 0 degrees )
+    ##       (fixed) anisotropy ratio = 1
+    ## 
+    ## Parameter of the error component:
+    ##       (fixed) nugget = 8984.94
+    ## 
+    ## Transformation parameter:
+    ##       (fixed) Box-Cox parameter = 1 (no transformation)
+    ## 
+    ## Practical Range with cor=0.05 for asymptotic range: 36.38468
+    ## 
+    ## Maximised Likelihood:
+    ##    log.L n.params      AIC      BIC 
+    ## "-553.2"      "5"   "1116"   "1129" 
+    ## 
+    ## non spatial model:
+    ##    log.L n.params      AIC      BIC 
+    ## "-552.1"      "4"   "1112"   "1122" 
+    ## 
+    ## Call:
+    ## likfit(geodata = aquiferg, coords = aquiferg$coords, data = aquiferg$data, 
+    ##     trend = "1st", ini.cov.pars = ini1, fix.nugget = T, nugget = 8984.94, 
+    ##     cov.model = "wave", lik.method = "REML")

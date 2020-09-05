@@ -149,12 +149,21 @@ drape.plot(grillas$x,
 
 ```{r warning = FALSE}
 
-# contour(grillas, nlevels = 10)
-# image(grillas$z)
+par(mfrow = c(2, 1),
+    mar = c(1,1,1,1))
+
+contour(grillas, nlevels = 10, main = "Contorno")
+image(grillas$z, main =  "Grilla")
+
+
+```
+```{r warning = FALSE}
+
 filled.contour(grillas, levels = seq(1000,
                                      5000,
-                                     len=10),
-               col = heat.colors(10))
+                                     len = 10),
+               col = heat.colors(10),
+                main = "grilla niveles")
 
 ```
 
@@ -212,7 +221,7 @@ contour(h,
 # Estimar diferentes tipos de regresión
 
 ## Primer modelo
-```{r echo = T }
+```{r echo = T , results = "hide"}
 
 reg1 <- lm(Profundidad ~ Este + Norte, data = aquifer)
 residuales1  <-  residuals(reg1)
@@ -220,8 +229,17 @@ summary(reg1)
 anova(reg1)
 
 ```
+
+```{r echo = F} 
+summary(reg1)
+anova(reg1)
+
+```
+
+
 ## Segundo modelo
-```{r echo = T }
+
+```{r echo = T, results = "hide" }
 
 reg2 <- lm(Profundidad ~ Este + Norte +
            I(Este^2) + I(Norte^2) +
@@ -232,12 +250,28 @@ summary(reg2)
 anova(reg2)
 
 ```
+
+```{r echo = F}
+
+summary(reg2)
+anova(reg2)
+
+```
+
 ## Tercer modelo
-```{r echo = T }
+
+```{r echo = T, results = "hide" }
 
 reg3 <- lm(Profundidad ~ Este * Norte,
            data = aquifer)
 residuales3  <-  residuals(reg3)
+summary(reg3)
+anova(reg3)
+
+```
+
+```{r echo = F}
+
 summary(reg3)
 anova(reg3)
 
@@ -247,7 +281,7 @@ anova(reg3)
 - Documentacion [variog](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=133)
 
 
-```{r echo = T }
+```{r echo = T, results = "hide" }
 
 vari2 <- variog(aquiferg, trend = "1st")
 vari2Cloud <- variog(aquiferg, op = "cloud", trend = "1st")
@@ -260,43 +294,50 @@ vari2Sm <- variog(aquiferg,
                   op = "sm",
                   band=11)
 
+```
+
+```{r echo = T}
 par(mfrow = c(2, 2), mar = c(3, 3, 1, 1), mgp = c(2, 1, 0))
      plot(vari2, main = "binned variogram")
      plot(vari2Cloud, main = "variogram cloud")
      plot(vari2BinCloud,main = "clouds for binned variogram")
      plot(vari2Sm, main = "smoothed variogram")
-
 ```
+
 ### Explorando estimación clásica, removiendo tendencia
 
-```{r echo = T }
+```{r echo = T, results  = "hide"}
 
 vari1 <- variog(aquiferg)
-plot(vari1)
 vari2 <- variog(aquiferg, trend = "1st")
-plot(vari2)
 vari3 <- variog(aquiferg, trend = "2nd")
-plot(vari3)
 
 ```
+```{r echo = T}
+plot(vari1, main = "Sin remover tendencia")
+plot(vari2, main  = "Trend 1 ")
+plot(vari3, main  = "Trend 2 ")
+```
 
-### Explorando estimación "Modulus", removiendo tendencia
+### Explorando estimación "Modulos", removiendo tendencia
 
-```{r echo = T }
+```{r echo = T, results  = "hide"}
 
 vari1 <- variog(aquiferg, estimator.type = "modulus")
-plot(vari1)
 vari2 <- variog(aquiferg, trend = "1st", estimator.type = "modulus")
-plot(vari2)
 vari3 <- variog(aquiferg, trend = "2nd", estimator.type = "modulus")
-plot(vari3)
 
+```
+```{r echo = T}
+plot(vari1, main = "Sin remover tendencia")
+plot(vari2, main  = "Trend 1 ")
+plot(vari3, main  = "Trend 2 ")
 ```
 
 
 ### Explorando posible anisotropia
 
-```{r echo = T}
+```{r echo = T, results = "hide"}
 vari_0 <- variog(aquiferg,
                  trend = "1st",
                  max.dist = 200,
@@ -322,5 +363,100 @@ plot(vari_0, main = "vari 0")
 plot(vari_45, main = "vari 45")
 plot(vari_90, main = "vari 90")
 plot(vari_135, main = "vari 195")
+
+```
+
+# Estimación teórica del semivariograma.
+
+- Documentación [eyefit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=25)
+- Documentación [variofit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=129)
+- Documentación [likfit](https://cran.r-project.org/web/packages/geoR/geoR.pdf#page=60)
+
+
+
+```{r echo = T, results = "hide"} 
+
+var1 <- variog(aquiferg,trend="1st",max.dist=200)
+
+
+#ini1 <- eyefit(var1)
+#cov.model  sigmasq phi   tausq kappa kappa2   practicalRange
+#1      wave 30805.52  13 8984.94  <NA>   <NA> 38.8889336320589
+ini1 <- c(30805.52, 13)
+fitvar1 <- variofit(var1,
+                    cov.model = "wave",
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "equal")
+
+fitvar2 <- variofit(var1,
+                    cov.model = "wave",
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "npairs")
+
+fitvar3 <- variofit(var1,
+                    ini1,
+                    fix.nugget = TRUE,
+                    nugget = 8984.94,
+                    wei = "cressie")
+
+
+fitvar4 <- likfit(aquiferg,
+                  coords = aquiferg$coords,
+                  data = aquiferg$data,
+                  trend = "1st",
+                  ini.cov.pars = ini1,
+                  fix.nugget = T,
+                  nugget = 8984.94,
+                  cov.model = "wave",
+                  lik.method = "ML")
+
+fitvar5 <- likfit(aquiferg,
+                  coords = aquiferg$coords,
+                  data = aquiferg$data,
+                  trend = "1st",
+                  ini.cov.pars = ini1,
+                  fix.nugget = T,
+                  nugget = 8984.94,
+                  cov.model = "wave",
+                  lik.method = "REML")
+```
+
+
+```{r echo = T}
+
+plot(var1,
+     xlab = "h",
+     ylab = "semivarianza",
+     cex.lab = 1.3,
+     cex.axis = 1.2,
+     main = "Estimación teórica del modelo de semivariograma",
+     col.main = 4, cex.main =1.3)
+lines(fitvar1, col = 1)
+lines(fitvar2, col = 2)
+lines(fitvar3, col = 3)
+lines(fitvar4, col = 4)
+lines(fitvar5, col = 5)
+legend(130, 18000,
+       c("MCO", "MCPnpairs", "MCPcressie", "ML", "REML"),
+       lwd = 2,
+       lty = 2:7,
+       col = 2:7,
+       box.col = 9,
+       text.col = 2:7)
+
+```
+
+# Resultados.
+
+```{r echo = T}
+summary(fitvar1)
+summary(fitvar2)
+summary(fitvar3)
+summary(fitvar4)
+summary(fitvar5)
 
 ```
