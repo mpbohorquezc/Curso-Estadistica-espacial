@@ -148,6 +148,7 @@ valida <- cbind(geo_data$Var,
                 geo_data[["Efecto columa"]] +
                 geo_data[["Residual"]] +
                 geo_data[["Efecto Global"]])
+valida <- as.data.frame(valida)
 names(valida) <- c("datos", "suma")
 print(valida)
 ```
