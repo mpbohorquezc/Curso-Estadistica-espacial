@@ -93,7 +93,7 @@ print(head(data))
 knitr::kable(head(data), label = "Encabezado coordenadas")
 ```
 
-Reshape para matriz, esto lo transforma la Data en forma de tabla
+Reshape para matriz, esto transforma la tabla de datos en matriz
 ```{r echo = T, results = "hide"}
 tabla <- reshape2::dcast(data,
                          X ~ Y,
