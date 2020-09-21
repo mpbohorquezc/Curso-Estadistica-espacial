@@ -6,7 +6,6 @@ output:
 
 ---
 
-
 # Simulación de un campo aleatorio. 
 
 ## Cargar librerias
@@ -41,8 +40,7 @@ knitr::kable(head(coordenadas), label = "Encabezado coordenadas")
 ```
 ## Definición de objeto VGM
 
-Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más complejos y combinados. Explorar
-la documentación.
+Esto define un objeto vgm que es el tipo de objeto que usa el paquete gstat para los modelos teòricos de variograma. Con este objeto se pueden definir modelos anidados.
 
 - [vgm](https://cran.r-project.org/web/packages/gstat/gstat.pdf#page=73)
 
