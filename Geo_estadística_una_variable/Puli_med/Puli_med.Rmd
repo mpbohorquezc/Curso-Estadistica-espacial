@@ -41,7 +41,7 @@ knitr::kable(head(coordenadas), label = "Encabezado coordenadas")
 ```
 ## Definición de objeto VGM
 
-Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más compljos y combinados. Explorar
+Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más complejos y combinados. Explorar
 la documentación.
 
 - [vgm](https://cran.r-project.org/web/packages/gstat/gstat.pdf#page=73)
@@ -79,7 +79,7 @@ simu <- rmvnorm(1,
 print(simu[1:5])
 ```
 
-# Pulimiento de mediandas
+# Pulimiento de medianas
 Unir las coordenadas con la columna de simulación
 
 ```{r echo = T, results = "hide"}
@@ -111,6 +111,47 @@ Pulimiento de mediandas de la tabla
 
 ```{r echo =  T}
 med <- medpolish(tabla)
+geo_data <- reshape2::melt(med$residuals)
 print(med)
+
+```
+Reshape de los datos, con efecto de la fila y la columna
+
+```{r echo =  T, results = "hide"}
+tabla_residuales <- as.data.frame(med$residuals)
+names(tabla_residuales) <- med$col
+rownames(tabla_residuales) <- med$row
+geo_data <- reshape2::melt(as.matrix(tabla_residuales))
+
+geo_data <- cbind(data,
+                  geo_data,
+                  med$overall)
+names(geo_data) <- c("X",
+                     "Y",
+                     "Var",
+                     "Efecto fila",
+                     "Efecto columa",
+                     "Residual",
+                     "Efecto Global")
+print(geo_data)
 ```
 
+```{r echo = F}
+knitr::kable(geo_data, label = "Geo data")
+```
+
+Validación de la descomposición
+
+```{r echo =  T, results = "hide"}
+valida <- cbind(geo_data$Var,
+                geo_data[["Efecto fila"]] +
+                geo_data[["Efecto columa"]] +
+                geo_data[["Residual"]] +
+                geo_data[["Efecto Global"]])
+names(valida) <- c("datos", "suma")
+print(valida)
+```
+
+```{r echo = F}
+knitr::kable(valida, label = "Validación")
+```

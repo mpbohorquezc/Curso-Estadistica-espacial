@@ -652,7 +652,7 @@ body {
 </tbody>
 </table>
 <h2 id="definicion-de-objeto-vgm">Definición de objeto VGM</h2>
-<p>Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más compljos y combinados. Explorar la documentación.</p>
+<p>Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más complejos y combinados. Explorar la documentación.</p>
 <ul>
 <li><a href="https://cran.r-project.org/web/packages/gstat/gstat.pdf#page=73">vgm</a></li>
 </ul>
@@ -691,9 +691,9 @@ body {
 <a class="sourceLine" id="cb8-3" data-line-number="3">                <span class="dt">mean =</span> mu,</a>
 <a class="sourceLine" id="cb8-4" data-line-number="4">                <span class="dt">sigma =</span> cov_mat)</a>
 <a class="sourceLine" id="cb8-5" data-line-number="5"><span class="kw">print</span>(simu[<span class="dv">1</span><span class="op">:</span><span class="dv">5</span>])</a></code></pre></div>
-<pre><code>## [1] -4.0682601 -1.4198806 -2.8682008 -0.6751372 -3.3157826
+<pre><code>## [1]  4.830103  3.034525  1.138179 -1.873857  2.060435
 </code></pre>
-<h1 id="pulimiento-de-mediandas">Pulimiento de mediandas</h1>
+<h1 id="pulimiento-de-medianas-1">Pulimiento de medianas</h1>
 <p>Unir las coordenadas con la columna de simulación</p>
 <div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb10-1" data-line-number="1">data &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(<span class="kw">cbind</span>(coordenadas<span class="op">@</span>coords,</a>
 <a class="sourceLine" id="cb10-2" data-line-number="2">                            <span class="dt">Simula =</span> <span class="kw">t</span>(simu)))</a>
@@ -711,32 +711,32 @@ body {
 <tr class="odd">
 <td align="right">0.0000000</td>
 <td align="right">0.0</td>
-<td align="right">-4.0682601</td>
+<td align="right">4.8301027</td>
 </tr>
 <tr class="even">
 <td align="right">0.3333333</td>
 <td align="right">0.0</td>
-<td align="right">-1.4198806</td>
+<td align="right">3.0345251</td>
 </tr>
 <tr class="odd">
 <td align="right">0.6666667</td>
 <td align="right">0.0</td>
-<td align="right">-2.8682008</td>
+<td align="right">1.1381794</td>
 </tr>
 <tr class="even">
 <td align="right">1.0000000</td>
 <td align="right">0.0</td>
-<td align="right">-0.6751372</td>
+<td align="right">-1.8738568</td>
 </tr>
 <tr class="odd">
 <td align="right">0.0000000</td>
 <td align="right">0.2</td>
-<td align="right">-3.3157826</td>
+<td align="right">2.0604349</td>
 </tr>
 <tr class="even">
 <td align="right">0.3333333</td>
 <td align="right">0.2</td>
-<td align="right">-3.5416547</td>
+<td align="right">0.2945418</td>
 </tr>
 </tbody>
 </table>
@@ -762,69 +762,430 @@ body {
 <tbody>
 <tr class="odd">
 <td align="left">0</td>
-<td align="right">-4.0682601</td>
-<td align="right">-3.3157826</td>
-<td align="right">-3.964449</td>
-<td align="right">-1.865695</td>
-<td align="right">0.2984491</td>
-<td align="right">3.756817</td>
+<td align="right">4.830103</td>
+<td align="right">2.0604349</td>
+<td align="right">-0.9225624</td>
+<td align="right">0.5634194</td>
+<td align="right">1.092045</td>
+<td align="right">-1.300585</td>
 </tr>
 <tr class="even">
 <td align="left">0.333333333333333</td>
-<td align="right">-1.4198806</td>
-<td align="right">-3.5416547</td>
-<td align="right">-1.178037</td>
-<td align="right">3.457028</td>
-<td align="right">1.8517466</td>
-<td align="right">2.158261</td>
+<td align="right">3.034525</td>
+<td align="right">0.2945418</td>
+<td align="right">4.3566390</td>
+<td align="right">4.2564992</td>
+<td align="right">4.567231</td>
+<td align="right">2.020777</td>
 </tr>
 <tr class="odd">
 <td align="left">0.666666666666667</td>
-<td align="right">-2.8682008</td>
-<td align="right">-2.5784630</td>
-<td align="right">1.156072</td>
-<td align="right">1.411423</td>
-<td align="right">1.1135553</td>
-<td align="right">-2.366930</td>
+<td align="right">1.138179</td>
+<td align="right">-0.3603120</td>
+<td align="right">0.8336506</td>
+<td align="right">2.5359436</td>
+<td align="right">4.159528</td>
+<td align="right">3.367247</td>
 </tr>
 <tr class="even">
 <td align="left">1</td>
-<td align="right">-0.6751372</td>
-<td align="right">-0.2091974</td>
-<td align="right">-2.262302</td>
-<td align="right">-2.058672</td>
-<td align="right">-1.7594986</td>
-<td align="right">-3.485401</td>
+<td align="right">-1.873857</td>
+<td align="right">1.2181301</td>
+<td align="right">2.7622138</td>
+<td align="right">5.5076557</td>
+<td align="right">3.472742</td>
+<td align="right">1.070395</td>
 </tr>
 </tbody>
 </table>
 <p>Pulimiento de mediandas de la tabla</p>
 <div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb12-1" data-line-number="1">med &lt;-<span class="st"> </span><span class="kw">medpolish</span>(tabla)</a></code></pre></div>
-<pre><code>## 1: 33.91125
-## 2: 33.35282
-## Final: 33.35282
+<pre><code>## 1: 29.05233
+## 2: 25.79825
+## 3: 25.51355
+## Final: 25.51355
 </code></pre>
-<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1"><span class="kw">print</span>(med)</a></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb14-1" data-line-number="1">geo_data &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(med<span class="op">$</span>residuals)</a>
+<a class="sourceLine" id="cb14-2" data-line-number="2"><span class="kw">print</span>(med)</a></code></pre></div>
 <pre><code>## 
 ## Median Polish Results (Dataset: &quot;tabla&quot;)
 ## 
-## Overall: -1.617855
+## Overall: 1.745649
 ## 
 ## Row Effects:
 ##                 0 0.333333333333333 0.666666666666667                 1 
-##        -0.6030266         1.6962823         0.6030266        -0.9881111 
+##        -2.1776530         1.2569077        -0.5097646         0.5097646 
 ## 
 ## Column Effects:
-##          0        0.2        0.4        0.6        0.8          1 
-## -1.6728436 -1.3292682 -0.4564005  1.4867726  1.9508511  0.6001988 
+##           0         0.2         0.4         0.6         0.8           1 
+## -0.03286843 -1.31674008  0.05228308  1.27700074  1.54436155 -0.92518049 
 ## 
 ## Residuals:
-##                          0      0.2      0.4      0.6      0.8       1
-## 0                 -0.17454  0.23437 -1.28717 -1.13159  0.56848  5.3775
-## 0.333333333333333  0.17454 -2.29081 -0.80006  1.89183 -0.17753  1.4796
-## 0.666666666666667 -0.18053 -0.23437  2.62730  0.93948  0.17753 -1.9523
-## 1                  3.60367  3.72604  0.80006 -0.93948 -1.10438 -1.4796
+##                           0      0.2      0.4       0.6       0.8         1
+## 0                  5.294975  3.80918 -0.54284 -0.281577 -0.020312  0.056599
+## 0.333333333333333  0.064837 -1.39127  1.30180 -0.023058  0.020312 -0.056599
+## 0.666666666666667 -0.064837 -0.27946 -0.45452  0.023058  1.379282  3.056543
+## 1                 -4.096402  0.27946  0.45452  1.975241 -0.327033 -0.259839
 </code></pre>
+<p>Reshape de los datos, con efecto de la fila y la columna</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb16-1" data-line-number="1">tabla_residuales &lt;-<span class="st"> </span><span class="kw">as.data.frame</span>(med<span class="op">$</span>residuals)</a>
+<a class="sourceLine" id="cb16-2" data-line-number="2"><span class="kw">names</span>(tabla_residuales) &lt;-<span class="st"> </span>med<span class="op">$</span>col</a>
+<a class="sourceLine" id="cb16-3" data-line-number="3"><span class="kw">rownames</span>(tabla_residuales) &lt;-<span class="st"> </span>med<span class="op">$</span>row</a>
+<a class="sourceLine" id="cb16-4" data-line-number="4">geo_data &lt;-<span class="st"> </span>reshape2<span class="op">::</span><span class="kw">melt</span>(<span class="kw">as.matrix</span>(tabla_residuales))</a>
+<a class="sourceLine" id="cb16-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb16-6" data-line-number="6">geo_data &lt;-<span class="st"> </span><span class="kw">cbind</span>(data,</a>
+<a class="sourceLine" id="cb16-7" data-line-number="7">                  geo_data,</a>
+<a class="sourceLine" id="cb16-8" data-line-number="8">                  med<span class="op">$</span>overall)</a>
+<a class="sourceLine" id="cb16-9" data-line-number="9"><span class="kw">names</span>(geo_data) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;X&quot;</span>,</a>
+<a class="sourceLine" id="cb16-10" data-line-number="10">                     <span class="st">&quot;Y&quot;</span>,</a>
+<a class="sourceLine" id="cb16-11" data-line-number="11">                     <span class="st">&quot;Var&quot;</span>,</a>
+<a class="sourceLine" id="cb16-12" data-line-number="12">                     <span class="st">&quot;Efecto fila&quot;</span>,</a>
+<a class="sourceLine" id="cb16-13" data-line-number="13">                     <span class="st">&quot;Efecto columa&quot;</span>,</a>
+<a class="sourceLine" id="cb16-14" data-line-number="14">                     <span class="st">&quot;Residual&quot;</span>,</a>
+<a class="sourceLine" id="cb16-15" data-line-number="15">                     <span class="st">&quot;Efecto Global&quot;</span>)</a>
+<a class="sourceLine" id="cb16-16" data-line-number="16"><span class="kw">print</span>(geo_data)</a></code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th align="right">X</th>
+<th align="right">Y</th>
+<th align="right">Var</th>
+<th align="right">Efecto fila</th>
+<th align="right">Efecto columa</th>
+<th align="right">Residual</th>
+<th align="right">Efecto Global</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">0.0</td>
+<td align="right">4.8301027</td>
+<td align="right">-2.1776530</td>
+<td align="right">-0.0328684</td>
+<td align="right">5.2949750</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">0.0</td>
+<td align="right">3.0345251</td>
+<td align="right">1.2569077</td>
+<td align="right">-0.0328684</td>
+<td align="right">0.0648367</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">0.0</td>
+<td align="right">1.1381794</td>
+<td align="right">-0.5097646</td>
+<td align="right">-0.0328684</td>
+<td align="right">-0.0648367</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">0.0</td>
+<td align="right">-1.8738568</td>
+<td align="right">0.5097646</td>
+<td align="right">-0.0328684</td>
+<td align="right">-4.0964022</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">0.2</td>
+<td align="right">2.0604349</td>
+<td align="right">-2.1776530</td>
+<td align="right">-1.3167401</td>
+<td align="right">3.8091788</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">0.2</td>
+<td align="right">0.2945418</td>
+<td align="right">1.2569077</td>
+<td align="right">-1.3167401</td>
+<td align="right">-1.3912749</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">0.2</td>
+<td align="right">-0.3603120</td>
+<td align="right">-0.5097646</td>
+<td align="right">-1.3167401</td>
+<td align="right">-0.2794564</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">0.2</td>
+<td align="right">1.2181301</td>
+<td align="right">0.5097646</td>
+<td align="right">-1.3167401</td>
+<td align="right">0.2794564</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">0.4</td>
+<td align="right">-0.9225624</td>
+<td align="right">-2.1776530</td>
+<td align="right">0.0522831</td>
+<td align="right">-0.5428416</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">0.4</td>
+<td align="right">4.3566390</td>
+<td align="right">1.2569077</td>
+<td align="right">0.0522831</td>
+<td align="right">1.3017991</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">0.4</td>
+<td align="right">0.8336506</td>
+<td align="right">-0.5097646</td>
+<td align="right">0.0522831</td>
+<td align="right">-0.4545169</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">0.4</td>
+<td align="right">2.7622138</td>
+<td align="right">0.5097646</td>
+<td align="right">0.0522831</td>
+<td align="right">0.4545169</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">0.6</td>
+<td align="right">0.5634194</td>
+<td align="right">-2.1776530</td>
+<td align="right">1.2770007</td>
+<td align="right">-0.2815775</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">0.6</td>
+<td align="right">4.2564992</td>
+<td align="right">1.2569077</td>
+<td align="right">1.2770007</td>
+<td align="right">-0.0230583</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">0.6</td>
+<td align="right">2.5359436</td>
+<td align="right">-0.5097646</td>
+<td align="right">1.2770007</td>
+<td align="right">0.0230583</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">0.6</td>
+<td align="right">5.5076557</td>
+<td align="right">0.5097646</td>
+<td align="right">1.2770007</td>
+<td align="right">1.9752412</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">0.8</td>
+<td align="right">1.0920452</td>
+<td align="right">-2.1776530</td>
+<td align="right">1.5443615</td>
+<td align="right">-0.0203125</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">0.8</td>
+<td align="right">4.5672308</td>
+<td align="right">1.2569077</td>
+<td align="right">1.5443615</td>
+<td align="right">0.0203125</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">0.8</td>
+<td align="right">4.1595280</td>
+<td align="right">-0.5097646</td>
+<td align="right">1.5443615</td>
+<td align="right">1.3792820</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">0.8</td>
+<td align="right">3.4727422</td>
+<td align="right">0.5097646</td>
+<td align="right">1.5443615</td>
+<td align="right">-0.3270331</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.0000000</td>
+<td align="right">1.0</td>
+<td align="right">-1.3005853</td>
+<td align="right">-2.1776530</td>
+<td align="right">-0.9251805</td>
+<td align="right">0.0565990</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">0.3333333</td>
+<td align="right">1.0</td>
+<td align="right">2.0207773</td>
+<td align="right">1.2569077</td>
+<td align="right">-0.9251805</td>
+<td align="right">-0.0565990</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="odd">
+<td align="right">0.6666667</td>
+<td align="right">1.0</td>
+<td align="right">3.3672472</td>
+<td align="right">-0.5097646</td>
+<td align="right">-0.9251805</td>
+<td align="right">3.0565432</td>
+<td align="right">1.745649</td>
+</tr>
+<tr class="even">
+<td align="right">1.0000000</td>
+<td align="right">1.0</td>
+<td align="right">1.0703947</td>
+<td align="right">0.5097646</td>
+<td align="right">-0.9251805</td>
+<td align="right">-0.2598386</td>
+<td align="right">1.745649</td>
+</tr>
+</tbody>
+</table>
+<p>Validación de la descomposición</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><a class="sourceLine" id="cb17-1" data-line-number="1">valida &lt;-<span class="st"> </span><span class="kw">cbind</span>(geo_data<span class="op">$</span>Var,</a>
+<a class="sourceLine" id="cb17-2" data-line-number="2">                geo_data[[<span class="st">&quot;Efecto fila&quot;</span>]] <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-3" data-line-number="3"><span class="st">                </span>geo_data[[<span class="st">&quot;Efecto columa&quot;</span>]] <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-4" data-line-number="4"><span class="st">                </span>geo_data[[<span class="st">&quot;Residual&quot;</span>]] <span class="op">+</span></a>
+<a class="sourceLine" id="cb17-5" data-line-number="5"><span class="st">                </span>geo_data[[<span class="st">&quot;Efecto Global&quot;</span>]])</a>
+<a class="sourceLine" id="cb17-6" data-line-number="6"><span class="kw">names</span>(valida) &lt;-<span class="st"> </span><span class="kw">c</span>(<span class="st">&quot;datos&quot;</span>, <span class="st">&quot;suma&quot;</span>)</a>
+<a class="sourceLine" id="cb17-7" data-line-number="7"><span class="kw">print</span>(valida)</a></code></pre></div>
+<pre><code>## Warning in kable_pipe(x = structure(c(&quot;4.8301027&quot;, &quot;3.0345251&quot;, &quot;1.1381794&quot;, : The table should have a header (column
+## names)
+</code></pre>
+<table>
+<tbody>
+<tr class="odd">
+<td align="right">4.8301027</td>
+<td align="right">4.8301027</td>
+</tr>
+<tr class="even">
+<td align="right">3.0345251</td>
+<td align="right">3.0345251</td>
+</tr>
+<tr class="odd">
+<td align="right">1.1381794</td>
+<td align="right">1.1381794</td>
+</tr>
+<tr class="even">
+<td align="right">-1.8738568</td>
+<td align="right">-1.8738568</td>
+</tr>
+<tr class="odd">
+<td align="right">2.0604349</td>
+<td align="right">2.0604349</td>
+</tr>
+<tr class="even">
+<td align="right">0.2945418</td>
+<td align="right">0.2945418</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.3603120</td>
+<td align="right">-0.3603120</td>
+</tr>
+<tr class="even">
+<td align="right">1.2181301</td>
+<td align="right">1.2181301</td>
+</tr>
+<tr class="odd">
+<td align="right">-0.9225624</td>
+<td align="right">-0.9225624</td>
+</tr>
+<tr class="even">
+<td align="right">4.3566390</td>
+<td align="right">4.3566390</td>
+</tr>
+<tr class="odd">
+<td align="right">0.8336506</td>
+<td align="right">0.8336506</td>
+</tr>
+<tr class="even">
+<td align="right">2.7622138</td>
+<td align="right">2.7622138</td>
+</tr>
+<tr class="odd">
+<td align="right">0.5634194</td>
+<td align="right">0.5634194</td>
+</tr>
+<tr class="even">
+<td align="right">4.2564992</td>
+<td align="right">4.2564992</td>
+</tr>
+<tr class="odd">
+<td align="right">2.5359436</td>
+<td align="right">2.5359436</td>
+</tr>
+<tr class="even">
+<td align="right">5.5076557</td>
+<td align="right">5.5076557</td>
+</tr>
+<tr class="odd">
+<td align="right">1.0920452</td>
+<td align="right">1.0920452</td>
+</tr>
+<tr class="even">
+<td align="right">4.5672308</td>
+<td align="right">4.5672308</td>
+</tr>
+<tr class="odd">
+<td align="right">4.1595280</td>
+<td align="right">4.1595280</td>
+</tr>
+<tr class="even">
+<td align="right">3.4727422</td>
+<td align="right">3.4727422</td>
+</tr>
+<tr class="odd">
+<td align="right">-1.3005853</td>
+<td align="right">-1.3005853</td>
+</tr>
+<tr class="even">
+<td align="right">2.0207773</td>
+<td align="right">2.0207773</td>
+</tr>
+<tr class="odd">
+<td align="right">3.3672472</td>
+<td align="right">3.3672472</td>
+</tr>
+<tr class="even">
+<td align="right">1.0703947</td>
+<td align="right">1.0703947</td>
+</tr>
+</tbody>
+</table>
 
 </body>
 </html>
