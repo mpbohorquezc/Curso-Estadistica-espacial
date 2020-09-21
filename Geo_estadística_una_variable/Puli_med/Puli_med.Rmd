@@ -1,0 +1,116 @@
+---
+title: "Pulimiento de medianas"
+output:
+  github_document:
+    pandoc_args: --webtex
+
+---
+
+
+# Simulación de un campo aleatorio. 
+
+## Cargar librerias
+
+Lista de librerías con link a la documentación.
+
+```{r include = FALSE}
+library(gstat)
+library(sp)
+library(mvtnorm)  # Simulación
+# rmarkdown::render("Ejemplo_aquifer_geoR.Rmd")
+```
+- [gstat](https://cran.r-project.org/web/packages/gstat/gstat.pdf)
+- [sp](https://cran.r-project.org/web/packages/sp/sp.pdf)
+
+Lista de librerías con link a la documentación.
+
+## Grilla de las ubicaciones espaciales.
+```{r echo = T}
+n_x <- 4
+n_y <- 6
+x <- seq(0, 1, len = n_x)
+y <- seq(0, 1, len = n_y)
+coordenadas <- as.data.frame(expand.grid(x, y))
+names(coordenadas) <- c("X", "Y")
+
+```
+
+Encabezado coordenadas
+```{r echo = F}
+knitr::kable(head(coordenadas), label = "Encabezado coordenadas")
+```
+## Definición de objeto VGM
+
+Esto define un objeto vgm que se usa a lo largo del paquete gstats, los modelos que se definen pueden ser más compljos y combinados. Explorar
+la documentación.
+
+- [vgm](https://cran.r-project.org/web/packages/gstat/gstat.pdf#page=73)
+
+```{r echo = T}
+vario <- vgm(10, # Punto de silla
+             "Exp", # Modelo, ver documentación
+             0.5)  # Rango
+print(vario)
+```
+
+## Matriz de varianza dadas coordenadas.
+
+- [vgmArea](https://cran.r-project.org/web/packages/gstat/gstat.pdf#page=78)
+- [coordinates](https://cran.r-project.org/web/packages/sp/sp.pdf#page=16)
+
+```{r echo = T}
+coordinates(coordenadas) <- ~X + Y
+class(coordenadas) # Cambio de objedto dataframe a sp
+
+cov_mat <- vgmArea(coordenadas, # Matriz de ubiaciones SP
+        vgm = vario) # VGM object
+
+print(dim(cov_mat))
+```
+
+## Simulación.
+
+Simulación dada la media y la matriz de varianza
+```{r echo = T}
+mu  <- rep(0, n_x * n_y) # Media del proceso
+simu <- rmvnorm(1,
+                mean = mu,
+                sigma = cov_mat)
+print(simu[1:5])
+```
+
+# Pulimiento de mediandas
+Unir las coordenadas con la columna de simulación
+
+```{r echo = T, results = "hide"}
+data <- as.data.frame(cbind(coordenadas@coords,
+                            Simula = t(simu)))
+names(data) <- c("X", "Y", "Var")
+print(head(data))
+```
+
+```{r echo = F}
+knitr::kable(head(data), label = "Encabezado coordenadas")
+```
+
+Reshape para matriz, esto lo transforma la Data en forma de tabla
+```{r echo = T, results = "hide"}
+tabla <- reshape2::dcast(data,
+                         X ~ Y,
+                         value.var = "Var")
+rownames(tabla) <- tabla[, 1]
+tabla <- tabla[, c(-1)]
+print(tabla)
+```
+
+```{r echo = F}
+knitr::kable(head(tabla), label = "Encabezado coordenadas")
+```
+
+Pulimiento de mediandas de la tabla
+
+```{r echo =  T}
+med <- medpolish(tabla)
+print(med)
+```
+

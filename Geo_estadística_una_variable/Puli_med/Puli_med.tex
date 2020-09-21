@@ -1,0 +1,293 @@
+\PassOptionsToPackage{unicode=true}{hyperref} % options for packages loaded elsewhere
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[ignorenonframetext,]{beamer}
+\usepackage{pgfpages}
+\setbeamertemplate{caption}[numbered]
+\setbeamertemplate{caption label separator}{: }
+\setbeamercolor{caption name}{fg=normal text.fg}
+\beamertemplatenavigationsymbolsempty
+% Prevent slide breaks in the middle of a paragraph:
+\widowpenalties 1 10000
+\raggedbottom
+\setbeamertemplate{part page}{
+\centering
+\begin{beamercolorbox}[sep=16pt,center]{part title}
+  \usebeamerfont{part title}\insertpart\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{section page}{
+\centering
+\begin{beamercolorbox}[sep=12pt,center]{part title}
+  \usebeamerfont{section title}\insertsection\par
+\end{beamercolorbox}
+}
+\setbeamertemplate{subsection page}{
+\centering
+\begin{beamercolorbox}[sep=8pt,center]{part title}
+  \usebeamerfont{subsection title}\insertsubsection\par
+\end{beamercolorbox}
+}
+\AtBeginPart{
+  \frame{\partpage}
+}
+\AtBeginSection{
+  \ifbibliography
+  \else
+    \frame{\sectionpage}
+  \fi
+}
+\AtBeginSubsection{
+  \frame{\subsectionpage}
+}
+\usepackage{lmodern}
+\usepackage{amssymb,amsmath}
+\usepackage{ifxetex,ifluatex}
+\usepackage{fixltx2e} % provides \textsubscript
+\ifnum 0\ifxetex 1\fi\ifluatex 1\fi=0 % if pdftex
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provides euro and other symbols
+\else % if luatex or xelatex
+  \usepackage{unicode-math}
+  \defaultfontfeatures{Ligatures=TeX,Scale=MatchLowercase}
+\fi
+% use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+% use microtype if available
+\IfFileExists{microtype.sty}{%
+\usepackage[]{microtype}
+\UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\IfFileExists{parskip.sty}{%
+\usepackage{parskip}
+}{% else
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{6pt plus 2pt minus 1pt}
+}
+\usepackage{hyperref}
+\hypersetup{
+            pdftitle={Pulimiento de medianas},
+            pdfborder={0 0 0},
+            breaklinks=true}
+\urlstyle{same}  % don't use monospace font for urls
+\newif\ifbibliography
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.77,0.63,0.00}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs}
+\usepackage{caption}
+% These lines are needed to make table captions work with longtable:
+\makeatletter
+\def\fnum@table{\tablename~\thetable}
+\makeatother
+\setlength{\emergencystretch}{3em}  % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{0}
+
+% set default figure placement to htbp
+\makeatletter
+\def\fps@figure{htbp}
+\makeatother
+
+
+\title{Pulimiento de medianas}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\frame{\titlepage}
+
+\hypertarget{simulaciuxf3n-de-un-campo-aleatorio.}{%
+\section{Simulación de un campo
+aleatorio.}\label{simulaciuxf3n-de-un-campo-aleatorio.}}
+
+\begin{frame}{Cargar librerias}
+\protect\hypertarget{cargar-librerias}{}
+
+Lista de librerías con link a la documentación.
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/gstat.pdf}{gstat}
+\item
+  \href{https://cran.r-project.org/web/packages/sp/sp.pdf}{sp}
+\end{itemize}
+
+Lista de librerías con link a la documentación.
+
+\end{frame}
+
+\begin{frame}[fragile]{Grilla de las ubicaciones espaciales.}
+\protect\hypertarget{grilla-de-las-ubicaciones-espaciales.}{}
+
+Encabezado coordenadas
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{knitr}\OperatorTok{::}\KeywordTok{kable}\NormalTok{(}\KeywordTok{head}\NormalTok{(coordenadas), }\DataTypeTok{label =} \StringTok{"Encabezado coordenadas"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}rr@{}}
+\toprule
+X & Y\tabularnewline
+\midrule
+\endhead
+0.0000000 & 0.0\tabularnewline
+0.3333333 & 0.0\tabularnewline
+0.6666667 & 0.0\tabularnewline
+1.0000000 & 0.0\tabularnewline
+0.0000000 & 0.2\tabularnewline
+0.3333333 & 0.2\tabularnewline
+\bottomrule
+\end{longtable}
+
+\end{frame}
+
+\begin{frame}[fragile]{Definición de objeto VGM}
+\protect\hypertarget{definiciuxf3n-de-objeto-vgm}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/gstat.pdf\#page=73}{vgm}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vario <-}\StringTok{ }\KeywordTok{vgm}\NormalTok{(}\DecValTok{10}\NormalTok{, }\CommentTok{# Punto de silla}
+             \StringTok{"Exp"}\NormalTok{, }\CommentTok{# Modelo, ver documentación}
+             \FloatTok{0.5}\NormalTok{)  }\CommentTok{# Rango}
+\KeywordTok{print}\NormalTok{(vario)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##   model psill range
+## 1   Exp    10   0.5
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Matriz de varianza dadas coordenadas.}
+\protect\hypertarget{matriz-de-varianza-dadas-coordenadas.}{}
+
+\begin{itemize}
+\tightlist
+\item
+  \href{https://cran.r-project.org/web/packages/gstat/gstat.pdf\#page=78}{vgmArea}
+\item
+  \href{https://cran.r-project.org/web/packages/sp/sp.pdf\#page=16}{coordinates}
+\end{itemize}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\KeywordTok{coordinates}\NormalTok{(coordenadas) <-}\StringTok{ }\ErrorTok{~}\NormalTok{X }\OperatorTok{+}\StringTok{ }\NormalTok{Y}
+\KeywordTok{class}\NormalTok{(coordenadas) }\CommentTok{# Cambio de objedto dataframe a sp}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] "SpatialPoints"
+## attr(,"package")
+## [1] "sp"
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{cov_mat <-}\StringTok{ }\KeywordTok{vgmArea}\NormalTok{(coordenadas, }\CommentTok{# Matriz de ubiaciones SP}
+        \DataTypeTok{vgm =}\NormalTok{ vario) }\CommentTok{# VGM object}
+
+\KeywordTok{print}\NormalTok{(}\KeywordTok{dim}\NormalTok{(cov_mat))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## [1] 24 24
+\end{verbatim}
+
+\end{frame}
+
+\begin{frame}[fragile]{Simulación.}
+\protect\hypertarget{simulaciuxf3n.}{}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mu  <-}\StringTok{ }\KeywordTok{rep}\NormalTok{(}\DecValTok{0}\NormalTok{, n_x }\OperatorTok{*}\StringTok{ }\NormalTok{n_y) }\CommentTok{# Media del proceso}
+\NormalTok{simu <-}\StringTok{ }\KeywordTok{rmvnorm}\NormalTok{(}\DecValTok{1}\NormalTok{,}
+                \DataTypeTok{mean =}\NormalTok{ mu,}
+                \DataTypeTok{sigma =}\NormalTok{ cov_mat)}
+\KeywordTok{print}\NormalTok{(simu)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           [,1]      [,2]      [,3]      [,4]      [,5]      [,6]      [,7]      [,8]      [,9]      [,10]     [,11]
+## [1,] -4.282744 -2.500688 -2.473144 -4.069976 -3.339916 -1.253902 -2.333074 -4.304353 -3.287125 -0.8492653 0.4972164
+##          [,12]     [,13]     [,14]    [,15]     [,16]     [,17]     [,18]    [,19]    [,20]     [,21]      [,22]
+## [1,] -5.253496 -2.111975 -2.599939 2.898355 -0.666937 -2.606326 -0.270931 1.629065 3.832959 -2.470549 -0.6196649
+##         [,23]  [,24]
+## [1,] 3.923153 3.8529
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{data <-}\StringTok{ }\KeywordTok{cbind}\NormalTok{(coordenadas}\OperatorTok{@}\NormalTok{coords, }\DataTypeTok{Simula =} \KeywordTok{t}\NormalTok{(simu))}
+\KeywordTok{names}\NormalTok{(data) <-}\StringTok{ }\KeywordTok{c}\NormalTok{(}\StringTok{"X"}\NormalTok{, }\StringTok{"Y"}\NormalTok{, }\StringTok{"Var"}\NormalTok{)}
+\KeywordTok{print}\NormalTok{(}\KeywordTok{head}\NormalTok{(data))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##           X   Y          
+## 1 0.0000000 0.0 -4.282744
+## 2 0.3333333 0.0 -2.500688
+## 3 0.6666667 0.0 -2.473144
+## 4 1.0000000 0.0 -4.069976
+## 5 0.0000000 0.2 -3.339916
+## 6 0.3333333 0.2 -1.253902
+\end{verbatim}
+
+\end{frame}
+
+\end{document}
